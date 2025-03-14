@@ -6,7 +6,7 @@ import { useFetch } from './components/hooks';
 //import { Button } from './components/Index'
 
 const url = "https://api.example.com/data";
-
+//const urlUser = "https://api.example.com/data";
 interface Data {
   Name:string,
   lastName:string,
@@ -16,6 +16,8 @@ interface Data {
 function App() {
   //const [count, setCount] = useState(0)
   const {data,loading,error} = useFetch<Data>(url)
+  //const {data:dataUser,loading:loading:loadingUser,error:errorUser} = useFetch<{Name:string}>(url)
+  
   if(loading){
     return <div>cargando...</div>
   }
