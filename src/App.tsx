@@ -1,5 +1,7 @@
 import './App.css'
 import { AppForm, Button, ColorRed } from './components/Index';
+import { GlobalProvider } from './context/global.provider';
+
 
 
 function App() {
@@ -13,17 +15,20 @@ function App() {
    console.log("Submitted")
  }
  return (
-  <>
+  <GlobalProvider>
+
+     <ColorRed><Button parentMethod={dimeHola}>
+     My Red Button
+    </Button></ColorRed>
+
     <Button parentMethod={handleClick}>
      My Button Standard
     </Button>
-    <ColorRed><Button parentMethod={dimeHola}>
-     My Red Button
-    </Button></ColorRed>
+   
     <AppForm>
       <Button type ="submit" onClick={submit}/>
     </AppForm>
-  </>
+  </GlobalProvider>
   
  )
 }
