@@ -1,20 +1,26 @@
+import { useEffect, useState } from 'react';
 import './App.css'
-import { Modal } from './components/Modal/Modal'
-import {  useModalContext } from './components/Modal/context/ModalContext'
+import { getCharacter,} from './services/api.services'
+import { Character, emptyCharacter } from './components/models';
+
+
 
 
 function App() {
-    const {setState} = useModalContext()
-    const openModal = ()=>{
-        setState(true)
-    }
+    const [data , setData] = useState<Character>({} as emptyCharacter);
 
+const fetchCharacter = async () => {
+    const result = await getCharacter(1);
+    setData(result.data)
+}
+useEffect(()=> {
+    fetchCharacter()
+    
+},[])
  return ( 
   <>
-    <Modal>
-        <h2>Hola mundo</h2>
-    </Modal>    
-    <button onClick={openModal}>abrir el modal</button>
+    {JSON.stringify(data)}
+    {data}
   </>
  )
 }
