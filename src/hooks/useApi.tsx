@@ -1,5 +1,5 @@
-import { AxiosResponse } from "axios";
 import { useCallback, useEffect, useState } from "react";
+import { UseApiCall } from "../components/models";
 
 
 type UseApiOption = {
@@ -8,20 +8,22 @@ type UseApiOption = {
 type Data<T> = T | null;
 type CustomError = Error | null;
 
-type UseApiResult<T> ={
+
+
+interface UseApiResult<T> {
     loading: boolean;
     data: Data<T>;
     error: CustomError;
     fetch:() => void;
 }
 
-export const useApi = <T,>(apiCall = () => Promise<AxiosResponse<T>>, options?:UseApiOption):UseApiResult<T> => {
+export const useApi = <T,>(apiCall: UseApiCall<T>, options?:UseApiOption):UseApiResult<T> => {
     const [loading,setLoading] = useState<boolean>(false)
     const [data,setData] = useState<Data<T>>(null)
     const [error,setError] = useState<CustomError>(null)
     
     const fetch = useCallback(() => {
-        const call = apiCall();
+        const {call, controller} = apiCall;
         setLoading(true);
 
         call.then((response)=>{
@@ -32,9 +34,10 @@ export const useApi = <T,>(apiCall = () => Promise<AxiosResponse<T>>, options?:U
         }).finally(()=>{
             setLoading(false);
         })
+        return () => controller.abort()
     },[apiCall])
 
-    useEffect(()=>{
+    useEffect(() => {
         if(options && options.autoFetch){
             return fetch;
         }
