@@ -2,28 +2,27 @@ import { useCallback, useEffect, useState } from "react";
 import { UseApiCall } from "../components/models";
 
 
-type UseApiOption = {
+type UseApiOption<P> = {
     autoFetch?:boolean;
-}
+}& (P extends null ? {param?: P} : {params : P})
 type Data<T> = T | null;
 type CustomError = Error | null;
 
 
-
-interface UseApiResult<T> {
+interface UseApiResult<T,P> {
     loading: boolean;
     data: Data<T>;
     error: CustomError;
-    fetch:() => void;
+    fetch:(param: P) => void;
 }
 
-export const useApi = <T,>(apiCall: UseApiCall<T>, options?:UseApiOption):UseApiResult<T> => {
+export const useApi = <T, P,>(apiCall:(param: Param<P>) => UseApiCall<T>, options?:UseApiOption<P>):UseApiResult<T,P> => {
     const [loading,setLoading] = useState<boolean>(false)
     const [data,setData] = useState<Data<T>>(null)
     const [error,setError] = useState<CustomError>(null)
     
-    const fetch = useCallback(() => {
-        const {call, controller} = apiCall;
+    const fetch = useCallback((param?:P) => {
+        const {call, controller} = apiCall(param);
         setLoading(true);
 
         call.then((response)=>{
@@ -39,7 +38,7 @@ export const useApi = <T,>(apiCall: UseApiCall<T>, options?:UseApiOption):UseApi
 
     useEffect(() => {
         if(options && options.autoFetch){
-            return fetch;
+            return fetch(options.params);
         }
     },[fetch,options])
 

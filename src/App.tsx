@@ -16,7 +16,7 @@ useEffect(()=> {
 },[])
 */
 
-const {loading, error, data, fetch} = useApi<Character>(getCharacter(1),{autoFetch:true})
+const {loading, error, data, fetch} = useApi<Character,number>(getCharacter,{autoFetch:true,params:1})
 
 if(loading){
     return (<p>Cargando</p>)
@@ -28,7 +28,7 @@ if(error){
  return ( 
   <>
     {JSON.stringify(data)}
-    <button onClick={fetch}></button>
+    <button onClick={()=> fetch(2)}></button>
   </>
  )
 }
