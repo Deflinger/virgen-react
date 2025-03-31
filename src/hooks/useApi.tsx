@@ -16,7 +16,7 @@ interface UseApiResult<T,P> {
     fetch:(param: P) => void;
 }
 
-export const useApi = <T, P,>(apiCall:(param: Param<P>) => UseApiCall<T>, options?:UseApiOption<P>):UseApiResult<T,P> => {
+export const useApi = <T, P,>(apiCall:(param: Param) => UseApiCall<T>, options?:UseApiOption<P>):UseApiResult<T,P> => {
     const [loading,setLoading] = useState<boolean>(false)
     const [data,setData] = useState<Data<T>>(null)
     const [error,setError] = useState<CustomError>(null)
@@ -37,10 +37,10 @@ export const useApi = <T, P,>(apiCall:(param: Param<P>) => UseApiCall<T>, option
     },[apiCall])
 
     useEffect(() => {
-        if(options && options.autoFetch){
+        if(options?.autoFetch){
             return fetch(options.params);
         }
-    },[fetch,options])
+    },[fetch,options?.autoFetch])
 
     return {loading,data,error,fetch}
 }

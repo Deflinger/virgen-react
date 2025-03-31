@@ -1,10 +1,9 @@
+const BASE_URL = "https://rickandmortyapi.com/api"
 import axios from "axios"
 import { Character, UseApiCall } from "../components/models"
 import { LoadAbort } from "../utilities"
 
-const BASE_URL = "https://rickandmortyapi.com/"
-
-export const getCharacter = (id: number):UseApiCall<Character,number> =>{
+export const getCharacter = (id: number):UseApiCall<Character> =>{
     const controller = LoadAbort();
     return {
         call: axios.get<Character>(`${BASE_URL}/character/${id}`,{signal:controller.signal}),
@@ -17,7 +16,7 @@ export const getSerena = () =>{
 }
 
 
-export const newCharacter = (character:Character) : UseApiCall<null, Character> => {
+export const newCharacter = (character:Character) : UseApiCall<null> => {
     const controller = LoadAbort();
     return {
         call: axios.post<null>(`${BASE_URL}/characters`,

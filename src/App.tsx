@@ -17,7 +17,7 @@ useEffect(()=> {
 */
 
 const {loading, error, data, fetch} = useApi<Character,number>(getCharacter,{autoFetch:true,params:1})
-
+//const {loading, error, data, fetch} = useApi<Character,number>(getCharacter)
 if(loading){
     return (<p>Cargando</p>)
 }
