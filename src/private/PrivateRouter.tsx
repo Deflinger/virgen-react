@@ -5,8 +5,8 @@ import { RoutesWithNotFound } from "../components/RoutesWithNotFound/RoutesWithN
 export const PrivateRouter = () => {
     return (
         <RoutesWithNotFound>
-            <Route path="/" element={<Navigate to={"/dashboard"}/>}/>
-            <Route path="/dashboard" element={<Dashboard/>}/>
+            <Route index element={<Navigate to={"dashboard"}/>}/>
+            <Route path="dashboard" element={<Dashboard/>}/>
         </RoutesWithNotFound>
     )
 }

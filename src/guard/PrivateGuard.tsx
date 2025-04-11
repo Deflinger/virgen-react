@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 export const PrivateGuard =()=>{
-    const token = localStorage.getItem("token")
-    return token ? <Outlet/> : <Navigate to="/private/dashboard"  replace/>
+    const token = sessionStorage.getItem('token')
+    console.log(token)
+    return token ? <Outlet/> : <Navigate to="/login"  replace/>
 }
